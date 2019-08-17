@@ -1,0 +1,47 @@
+[{
+    text: 'Class1',
+	expandable: true,
+	leaf: true,
+	listeners: {
+		click: function(node, e) {
+			currNode = node;
+		},
+		contextmenu: function(node, e) {
+			e.preventDefault();
+			node.select();
+			let ctxMenu = node.getOwnerTree().contextMenu;
+			ctxMenu.currNode = node;
+			ctxMenu.showAt(e.getXY());
+		}
+	}
+}, {
+    text: 'Class2',
+	listeners: {
+		click: function(node, e) {
+			currNode = node;
+		},
+		contextmenu: function(node, e) {
+			e.preventDefault();
+			node.select();
+			let ctxMenu = node.getOwnerTree().contextMenu;
+			ctxMenu.currNode = node;
+			ctxMenu.showAt(e.getXY());
+		}
+	},
+    children: [{
+        text: 'Student1',
+        leaf: true,
+		listeners: {
+			click: function(node, e) {
+				currNode = node;
+			},
+			contextmenu: function(node, e) {
+				e.preventDefault();
+				node.select();
+				let ctxMenu = node.getOwnerTree().contextMenu;
+				ctxMenu.currNode = node;
+				ctxMenu.showAt(e.getXY());
+			}
+		}
+    }]
+}]

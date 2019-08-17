@@ -17,30 +17,38 @@ Ext.onReady(function() {
             itemclick: function(item) {
                 switch (item.id) {
                     case 'Add':
-                        addClassOrStudent(currNode, 'undefined');
+                        currNode = item.parentMenu.currNode;
+                        addClassOrStudent(currNode, 'unnamed');
                 }
             }
         }
     });
 
     let studentTreeCmp = new Ext.tree.TreePanel({
-        root: new Ext.tree.TreeNode({
+        loader: new Ext.tree.TreeLoader({
+            dataUrl: 'school_data.txt'
+        }),
+        contextMenu: contextmenu,
+        root: new Ext.tree.AsyncTreeNode({
             text: 'School',
             expandable: true,
             expanded: true,
             listeners: {
                 click: function(node, e) {
                     currNode = node;
+                    console.log('abc');
                 },
                 contextmenu: function(node, e) {
                     e.preventDefault();
                     node.select();
-                    currNode = node;
-                    contextmenu.showAt(e.getXY());
+                    let ctxMenu = node.getOwnerTree().contextMenu;
+                    ctxMenu.currNode = node;
+                    ctxMenu.showAt(e.getXY());
                 }
             }
         })
     });
+    studentTreeCmp.expandAll();
 
     let addClassOrStudent = function(node, studentOrClassName) {
         switch (node.getDepth()) {
@@ -56,8 +64,9 @@ Ext.onReady(function() {
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
-                            currNode = node;
-                            contextmenu.showAt(e.getXY());
+                            let ctxMenu = node.getOwnerTree().contextMenu;
+                            ctxMenu.currNode = node;
+                            ctxMenu.showAt(e.getXY());
                         }
                     }
                 }));
@@ -72,8 +81,9 @@ Ext.onReady(function() {
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
-                            currNode = node;
-                            contextmenu.showAt(e.getXY());
+                            let ctxMenu = node.getOwnerTree().contextMenu;
+                            ctxMenu.currNode = node;
+                            ctxMenu.showAt(e.getXY());
                         }
                     }
                 }));
@@ -88,8 +98,9 @@ Ext.onReady(function() {
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
-                            currNode = node;
-                            contextmenu.showAt(e.getXY());
+                            let ctxMenu = node.getOwnerTree().contextMenu;
+                            ctxMenu.currNode = node;
+                            ctxMenu.showAt(e.getXY());
                         }
                     }
                 }));
