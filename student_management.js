@@ -1,5 +1,5 @@
 let createPanelByConfig = function(config, items) {
-    return new Ext.Panel({ title: config.title, region: config.region, width: config.width, items: items });
+    return new Ext.Panel({ title: config.title, region: config.region, width: config.width, autoScroll: config.autoScroll || false, items: items });
 }
 
 Ext.onReady(function() {
@@ -10,7 +10,7 @@ Ext.onReady(function() {
         id: 'theContextMenu',
         items: [{
             id: 'Add',
-            text: 'Add Class or Student',
+            text: 'Add',
         }],
         listeners: {
             itemclick: function(item) {
@@ -151,7 +151,7 @@ Ext.onReady(function() {
 
     let treeEditor = new Ext.tree.TreeEditor(studentTreeCmp, { allowBlank: false });
 
-    studentTreeCmp = createPanelByConfig({ region: 'west', width: 300, title: 'Student Info Panel' }, [studentTreeCmp]);
+    studentTreeCmp = createPanelByConfig({ region: 'west', width: 300, title: 'Student Info Panel', autoScroll: true }, [studentTreeCmp]);
     manageCmp = createPanelByConfig({ region: 'center', title: 'Student Management Panel' }, [manageCmp]);
     new Ext.Viewport({
         layout: 'border',
