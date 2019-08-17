@@ -4,11 +4,12 @@
 	leaf: true,
 	listeners: {
 		click: function(node, e) {
-			currNode = node;
+			node.getOwnerTree().currNode = node;
 		},
 		contextmenu: function(node, e) {
 			e.preventDefault();
 			node.select();
+			node.getOwnerTree().currNode = node;
 			let ctxMenu = node.getOwnerTree().contextMenu;
 			ctxMenu.currNode = node;
 			ctxMenu.showAt(e.getXY());
@@ -18,11 +19,12 @@
     text: 'Class2',
 	listeners: {
 		click: function(node, e) {
-			currNode = node;
+			node.getOwnerTree().currNode = node;
 		},
 		contextmenu: function(node, e) {
 			e.preventDefault();
 			node.select();
+			node.getOwnerTree().currNode = node;
 			let ctxMenu = node.getOwnerTree().contextMenu;
 			ctxMenu.currNode = node;
 			ctxMenu.showAt(e.getXY());
@@ -33,11 +35,12 @@
         leaf: true,
 		listeners: {
 			click: function(node, e) {
-				currNode = node;
+				node.getOwnerTree().currNode = node;
 			},
 			contextmenu: function(node, e) {
 				e.preventDefault();
 				node.select();
+				node.getOwnerTree().currNode = node;
 				let ctxMenu = node.getOwnerTree().contextMenu;
 				ctxMenu.currNode = node;
 				ctxMenu.showAt(e.getXY());

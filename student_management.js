@@ -5,7 +5,6 @@ let createPanelByConfig = function(config, items) {
 Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
-    let currNode;
 
     let contextmenu = new Ext.menu.Menu({
         id: 'theContextMenu',
@@ -15,28 +14,34 @@ Ext.onReady(function() {
         }],
         listeners: {
             itemclick: function(item) {
+                let currNode = item.parentMenu.currNode;
                 switch (item.id) {
                     case 'Add':
-                        currNode = item.parentMenu.currNode;
-                        addClassOrStudent(currNode, 'unnamed');
+                        if (currNode.getDepth() == 0) {
+                            addClassOrStudent(currNode, 'ClassX');
+                        } else {
+                            addClassOrStudent(currNode, 'StudentX');
+                        }
+                        break;
                 }
             }
         }
     });
 
     let studentTreeCmp = new Ext.tree.TreePanel({
+        id: 'studentTrepCmp',
         loader: new Ext.tree.TreeLoader({
             dataUrl: 'school_data.txt'
         }),
         contextMenu: contextmenu,
+        currNode: '',
         root: new Ext.tree.AsyncTreeNode({
             text: 'School',
             expandable: true,
             expanded: true,
             listeners: {
                 click: function(node, e) {
-                    currNode = node;
-                    console.log('abc');
+                    node.getOwnerTree().currNode = node;
                 },
                 contextmenu: function(node, e) {
                     e.preventDefault();
@@ -59,11 +64,12 @@ Ext.onReady(function() {
                     expanded: true,
                     listeners: {
                         click: function(node, e) {
-                            currNode = node
+                            node.getOwnerTree().currNode = node;
                         },
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
+                            node.getOwnerTree().currNode = node;
                             let ctxMenu = node.getOwnerTree().contextMenu;
                             ctxMenu.currNode = node;
                             ctxMenu.showAt(e.getXY());
@@ -76,11 +82,12 @@ Ext.onReady(function() {
                     text: studentOrClassName,
                     listeners: {
                         click: function(node, e) {
-                            currNode = node
+                            node.getOwnerTree().currNode = node;
                         },
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
+                            node.getOwnerTree().currNode = node;
                             let ctxMenu = node.getOwnerTree().contextMenu;
                             ctxMenu.currNode = node;
                             ctxMenu.showAt(e.getXY());
@@ -93,11 +100,12 @@ Ext.onReady(function() {
                     text: studentOrClassName,
                     listeners: {
                         click: function(node, e) {
-                            currNode = node
+                            node.getOwnerTree().currNode = node;
                         },
                         contextmenu: function(node, e) {
                             e.preventDefault();
                             node.select();
+                            node.getOwnerTree().currNode = node;
                             let ctxMenu = node.getOwnerTree().contextMenu;
                             ctxMenu.currNode = node;
                             ctxMenu.showAt(e.getXY());
@@ -126,6 +134,7 @@ Ext.onReady(function() {
                 listeners: {
                     click: function() {
                         if (Ext.getCmp('studentNameOrClassName').isValid()) {
+                            let currNode = Ext.getCmp('studentTrepCmp').currNode;
                             if (currNode) {
                                 addClassOrStudent(currNode, Ext.getCmp('studentNameOrClassName').getValue());
                             } else {
